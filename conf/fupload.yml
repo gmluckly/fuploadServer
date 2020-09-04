@@ -1,0 +1,28 @@
+env: "pro"
+server:
+  port: 8080
+  addr: "http://192.168.48.128"   # upload server address
+  proxyAddr: ""
+cacheAddr: "localhost:11211"
+
+##
+mysqlDB:
+  host: "172.16.2.110:3306"
+  database: "fupload"
+  userName: "mpr"
+  password: "123456"
+checkTmpMd5: false  #check temp file md5 everytime if it is necesarry.
+                    #when the value is true,it will check md5 when every upload tmp file.
+tmpDir: "/tmp/resource/"
+storeDir: "/data"  #if this key is(""), it will not limit the path that store file
+taskTimeout: 3600  # after (seconds), if the task do not finish ,it will be deleted
+
+# add you business server here,
+# check tokens and send result to notifuUrl after finish
+bServer:
+  12345:  # name
+    name: "cp"
+    notifyUrl: "http://172.16.2.111:5002/api/finish"
+  123456:
+    token: "cp2"
+    notifyUrl: "http://172.16.2.109:8080/api/finish"
