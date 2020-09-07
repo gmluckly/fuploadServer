@@ -20,7 +20,7 @@ func NewTaskHandler(c *gin.Context) {
 		UserId            string      `json:"userId"`
 		StorePath         string      `json:"storePath"`
 		FileName          string      `json:"fileName"`
-		FileSize          string      `json:"fileSize"`
+		FileSize          int64       `json:"fileSize"`
 		FileMd5           string      `json:"fileMd5"`
 		FeedBackParameter interface{} `json:"feedbackParameter"`
 	}
@@ -36,7 +36,7 @@ func NewTaskHandler(c *gin.Context) {
 			//TODO find if there is an old task before
 			key := req.UserId + req.FileMd5
 			type response struct {
-				TaskId    string `json:"taskId"`
+				TaskId    int64  `json:"taskId"`
 				UploadUrl string `json:"uploadUrl"`
 				BlocksUrl string `json:"blocksUrl"`
 				StateUrl  string `json:"stateUrl"`
@@ -45,7 +45,7 @@ func NewTaskHandler(c *gin.Context) {
 			if oldTask != nil {
 				//TODO here there is an old task
 				var result response
-				result.TaskId = strconv.FormatInt(oldTask.taskId, 10)
+				result.TaskId = oldTask.taskId
 				result.UploadUrl = oldTask.uploadUrl
 				result.StateUrl = oldTask.stateUrl
 				result.BlocksUrl = oldTask.blocksUrl
@@ -57,7 +57,7 @@ func NewTaskHandler(c *gin.Context) {
 				//var task taskInfo
 
 				userId, _ := strconv.ParseInt(req.UserId, 10, 64)
-				fileSize, _ := strconv.ParseInt(req.FileSize, 10, 64)
+				//fileSize, _ := strconv.ParseInt(req.FileSize, 10, 64)
 				id := utils.MakeTaskId()
 				tmpPath := config.TmpDir + strconv.FormatInt(id, 10) + "/"
 				tmpFile := tmpPath + req.FileName
@@ -95,7 +95,7 @@ func NewTaskHandler(c *gin.Context) {
 					userId:            userId,
 					token:             req.Token,
 					storePath:         req.StorePath,
-					fileSize:          fileSize,
+					fileSize:          req.FileSize,
 					fileName:          req.FileName,
 					fileMd5:           req.FileMd5,
 					feedBackParameter: req.FeedBackParameter,
@@ -109,7 +109,7 @@ func NewTaskHandler(c *gin.Context) {
 				tasks.setTask(t)
 
 				var result response
-				result.TaskId = strconv.FormatInt(t.taskId, 10)
+				result.TaskId = t.taskId
 				result.UploadUrl = uploadUrl
 				result.BlocksUrl = blocksUrl
 				result.StateUrl = stateUrl
