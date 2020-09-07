@@ -1,4 +1,4 @@
-package example
+package main
 
 import (
 	"testing"
@@ -7,10 +7,9 @@ import (
 func TestSendFile(t *testing.T) {
 
 	var userId int64 = 123456
-	var uToken string = "12345"
-	var bToken string = "12345"
+	token := "cp00000010103010301"
 	targetContent := "/home/mpr/1.exe"
 	storePath := "/tmp/fupload"
-	sendFile(userId, uToken, bToken, targetContent, storePath)
+	sendFile(userId, token, targetContent, storePath)
 
 }
