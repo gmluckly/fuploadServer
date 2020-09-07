@@ -1,8 +1,8 @@
 env: "pro"
 server:
-  port: 8080
-  addr: "http://192.168.48.128"   # upload server address
-  proxyAddr: ""
+  port: 8081
+  addr: "http://192.168.48.128"   # 返回给客户端的ip地址
+  proxyAddr: ""                   #可以加nginx做反向代理，
 cacheAddr: "localhost:11211"
 
 ##
@@ -21,8 +21,8 @@ taskTimeout: 3600  # after (seconds), if the task do not finish ,it will be dele
 # check tokens and send result to notifuUrl after finish
 bServer:
   12345:  # name
-    name: "cp"
-    notifyUrl: "http://172.16.2.111:5002/api/finish"
+    token: "cp00000010103010301"
+    notifyUrl: "http://127.0.0.1:8080/api/finish"
   123456:
     token: "cp2"
     notifyUrl: "http://172.16.2.109:8080/api/finish"
