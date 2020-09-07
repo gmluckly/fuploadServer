@@ -1,4 +1,4 @@
-package example
+package main
 
 import (
 	"fmt"
@@ -20,7 +20,7 @@ import (
 
 var uploadFileSize = 1000000
 
-func sendFile(userId int64, uToken string, bToken string, targetContent string, storePath string) {
+func sendFile(userId int64, token string, targetContent string, storePath string) {
 
 	fileName := filepath.Base(targetContent)
 	localFilePath := targetContent
@@ -30,7 +30,7 @@ func sendFile(userId int64, uToken string, bToken string, targetContent string, 
 	fmt.Println("fileInfo:", fileInfo)
 	fileSize := fileInfo.Size()
 
-	url := "http://127.0.0.1:8080/api/upload/new/task"
+	url := "http://127.0.0.1:8080/api/business/new/task"
 	body := make(map[string]interface{})
 	body["fileName"] = fileName
 	body["fileSize"] = strconv.FormatInt(fileSize, 10)
@@ -38,8 +38,7 @@ func sendFile(userId int64, uToken string, bToken string, targetContent string, 
 	body["userId"] = strconv.FormatInt(userId, 10)
 	body["storePath"] = storePath
 	body["feedbackParameter"] = "111"
-	body["uToken"] = uToken
-	body["bToken"] = bToken
+	body["token"] = token
 	bytesData, err := json.Marshal(body)
 	if err != nil {
 		fmt.Println("err:", err)
@@ -178,4 +177,12 @@ func sendFileData(url string, start, end int, data []byte) bool {
 	}
 	//fmt.Println("return_code:", r.ReturnCode)
 	return strings.EqualFold(r.ReturnCode, "0")
+}
+
+func main() {
+	var userId int64 = 123456
+	var token string = "12345"
+	targetContent := "/home/mpr/1.exe"
+	storePath := "/tmp/fupload"
+	sendFile(userId, token, targetContent, storePath)
 }
