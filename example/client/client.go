@@ -15,7 +15,7 @@ import (
 	"io/ioutil"
 	"strings"
 
-	"fuploadServer/src/utils"
+	"fuploadServer/utils"
 )
 
 var uploadFileSize = 1000000
