@@ -20,7 +20,7 @@ bServer项为与业务服务器交互的信息配置，配置token和业务服�
  (3)上传组件(fuploadServer)  
 
  流程：   
- ![avatar](/fupload.jpg)
+ ![image](https://github.com/gmluckly/fuploadServer/blob/master/fupload.jpg)
  
  #### 1、client端申请上传。
  ##### 1.1 client 与business server交互，申请上传，具体协议自定义  
