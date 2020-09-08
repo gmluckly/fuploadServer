@@ -17,7 +17,7 @@ import (
 func NewTaskHandler(c *gin.Context) {
 	type request struct {
 		Token             string      `json:"token"`
-		UserId            string      `json:"userId"`
+		UserId            int64       `json:"userId"`
 		StorePath         string      `json:"storePath"`
 		FileName          string      `json:"fileName"`
 		FileSize          int64       `json:"fileSize"`
@@ -34,7 +34,7 @@ func NewTaskHandler(c *gin.Context) {
 		}
 		if checkToken {
 			//TODO find if there is an old task before
-			key := req.UserId + req.FileMd5
+			key := strconv.FormatInt(req.UserId, 10) + req.FileMd5
 			type response struct {
 				TaskId    int64  `json:"taskId"`
 				UploadUrl string `json:"uploadUrl"`
@@ -53,11 +53,8 @@ func NewTaskHandler(c *gin.Context) {
 
 			} else {
 				// new task
-				fmt.Println("req: ", req)
+				//fmt.Println("req: ", req)
 				//var task taskInfo
-
-				userId, _ := strconv.ParseInt(req.UserId, 10, 64)
-				//fileSize, _ := strconv.ParseInt(req.FileSize, 10, 64)
 				id := utils.MakeTaskId()
 				tmpPath := config.TmpDir + strconv.FormatInt(id, 10) + "/"
 				tmpFile := tmpPath + req.FileName
@@ -92,7 +89,7 @@ func NewTaskHandler(c *gin.Context) {
 					uploadUrl:         uploadUrl,
 					stateUrl:          stateUrl,
 					blocksUrl:         blocksUrl,
-					userId:            userId,
+					userId:            req.UserId,
 					token:             req.Token,
 					storePath:         req.StorePath,
 					fileSize:          req.FileSize,

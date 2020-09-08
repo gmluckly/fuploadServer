@@ -42,7 +42,7 @@ type mysqlConf struct {
 
 type bServer struct {
 	//Name      string `yaml:"name"`
-	Token     string `yaml:"token"`
+	Name      string `yaml:"name"`
 	NotifyUrl string `yaml:"notifyUrl"`
 }
 

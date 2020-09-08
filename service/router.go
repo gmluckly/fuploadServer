@@ -6,7 +6,7 @@ import (
 )
 
 func setUpRouter() *gin.Engine {
-	gin.SetMode(gin.DebugMode)
+	gin.SetMode(gin.ReleaseMode)
 	r := gin.Default()
 	r.Use(limit.MaxAllowed(20))
 	r.POST("/api/upload/new/task", NewTaskHandler)

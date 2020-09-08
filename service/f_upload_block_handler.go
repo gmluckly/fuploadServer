@@ -7,7 +7,6 @@ import (
 	"fuploadServer/utils"
 	"io"
 	"io/ioutil"
-	"log"
 	"strings"
 	"sync"
 
@@ -37,7 +36,7 @@ func MultiPartHandler(c *gin.Context) {
 	for {
 		part, err := reader.NextPart()
 		if err == io.EOF {
-			log.Printf("==== EOF\n")
+			//log.Printf("==== EOF\n")
 			break
 		} else if err != nil {
 			c.JSON(http.StatusOK, ResponseErrParameter)

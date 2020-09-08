@@ -294,10 +294,11 @@ func doAfterMerge(t *task) {
 		} else {
 			// delete the temp file
 			deleteTempfile(t.tmpPath)
-			t.done <- struct{}{}
+			//t.done <- struct{}{}
 			tasks.deleteTask(t)
 			//TODO send the result to business server
 			sendResult2BServer(t.token, retCodeFinish, t.feedBackParameter)
+			t.done <- struct{}{}
 		}
 	} else {
 		fmt.Println("error,finalMd5 != fileMd5 ")
@@ -336,6 +337,7 @@ func sendResult2BServer(token string, retCode string, feedBackParameter interfac
 		fmt.Println("cant not find notify url ")
 		return
 	}
+	fmt.Println("call back url:", url)
 	body := make(map[string]interface{})
 	body["retCode"] = retCode
 	var status string
