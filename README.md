@@ -1,7 +1,21 @@
 # fuploadServer
 ## 一、说明
 这个demo的目标是提供一个能断点上传大文件的组件，只要client端按照协商好的格式，上传数据，fuploadServer就能提供正确的上传服务。
-## 二、使用 
+
+## 二、运行example中的例子  
+ 准备好一个名字为test.mp4的文件，放在/home 下。  
+ 1、运行fuploaderServer   
+   nohup ./fuploadServer -c ./conf/fupload.yml &   
+  
+ 2、运行业务服务器  
+   nohup ./businessServer &  
+ 
+ 3、运行client端  
+   ./client   
+  
+  可以看到会把/home/test.mp4上传到上传组件所在机器上的/tmp/business/目录下。
+
+## 三、使用 
 #### 1、部署上传组件  
 go get http:github.com/gmluckly/fuploadServer  
 go build   
@@ -139,3 +153,4 @@ body:
  
  reponse:  
  忽略  
+ 
