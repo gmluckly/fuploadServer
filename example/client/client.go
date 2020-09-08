@@ -180,7 +180,7 @@ func sendFileData(url string, start, end int, data []byte) bool {
 func main() {
 	var userId int64 = 123456
 	//var token string = "12345"
-	targetContent := "/home/mpr/test.mp4"
+	targetContent := "/home/test.mp4"
 	//storePath := "/tmp/fupload"
 	sendFile(userId, targetContent)
 }
