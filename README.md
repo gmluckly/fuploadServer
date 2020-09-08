@@ -25,6 +25,8 @@ bServer项为与业务服务器交互的信息配置，配置token和业务服�
     nohup/fupload_server -c ./conf/fupload.yaml &   
     
 也可以使用Dockerfile打包成镜像，在docker中运行  
+docker build -t fuploadserver:v1.0.0 .  
+docker run --name fupload -d -p8090:8090 fuploadserver:v1.0.0
 
 
 #### 2、服务开发对接
