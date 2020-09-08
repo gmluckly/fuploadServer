@@ -51,7 +51,7 @@ func UploadFile(c *gin.Context) {
 		return
 	}
 	reader := bytes.NewReader(bytesData)
-	url := "http://127.0.0.1:8081/api/upload/new/task"
+	url := "http://127.0.0.1:8080/api/upload/new/task"
 	request, err := http.NewRequest("POST", url, reader)
 	if err != nil {
 		fmt.Println(err.Error())
@@ -61,26 +61,32 @@ func UploadFile(c *gin.Context) {
 	client := http.Client{}
 	resp, err := client.Do(request)
 	if err != nil {
-		fmt.Println("err:", err)
+		c.JSON(http.StatusOK, gin.H{"retCode": "-1", "status": "parameter error", "data": ""})
+		return
 	} else {
 		type taskInfo struct {
-			TaskId    string `json:"taskId"`
+			TaskId    int64  `json:"taskId"`
 			UploadUrl string `json:"uploadUrl"`
 			BlocksUrl string `json:"blocksUrl"`
 			StateUrl  string `json:"stateUrl"`
 		}
 		type respBody struct {
-			ReturnCode string   `json:"retCode"`
-			Status     string   `json:"status"`
-			Data       taskInfo `json:"data"`
+			RetCode string   `json:"retCode"`
+			Status  string   `json:"status"`
+			Data    taskInfo `json:"data"`
 		}
 		var r respBody
 		respBytes, _ := ioutil.ReadAll(resp.Body)
 		err := json.Unmarshal(respBytes, &r)
 		fmt.Println("Unmarshal err:", err)
-		uploadUrl := r.Data.UploadUrl
-		fmt.Println("uploadUrl: ", uploadUrl)
-		c.JSON(http.StatusOK, gin.H{"retCode": "0", "status": "ok", "data": respBytes})
+		fmt.Println("r: ", r)
+		var result taskInfo
+		result.TaskId = r.Data.TaskId
+		result.BlocksUrl = r.Data.BlocksUrl
+		result.StateUrl = r.Data.StateUrl
+		result.UploadUrl = r.Data.UploadUrl
+
+		c.JSON(http.StatusOK, gin.H{"retCode": "0", "status": "ok", "data": result})
 	}
 }
 

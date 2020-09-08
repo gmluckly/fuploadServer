@@ -20,25 +20,23 @@ import (
 
 var uploadFileSize = 1000000
 
-func sendFile(userId int64, token string, targetContent string, storePath string) {
+func sendFile(userId int64, targetContent string) {
 
 	fileName := filepath.Base(targetContent)
 	localFilePath := targetContent
 	fileMd5 := utils.FileMd5(localFilePath)
 
 	fileInfo, _ := os.Stat(localFilePath)
-	fmt.Println("fileInfo:", fileInfo)
+	//fmt.Println("fileInfo:", fileInfo)
 	fileSize := fileInfo.Size()
 
-	url := "http://127.0.0.1:8080/api/business/new/task"
+	url := "http://127.0.0.1:8090/api/business/new/task"
 	body := make(map[string]interface{})
 	body["fileName"] = fileName
-	body["fileSize"] = strconv.FormatInt(fileSize, 10)
+	body["fileSize"] = fileSize
 	body["fileMd5"] = fileMd5
-	body["userId"] = strconv.FormatInt(userId, 10)
-	body["storePath"] = storePath
-	body["feedbackParameter"] = "111"
-	body["token"] = token
+	body["userId"] = userId
+
 	bytesData, err := json.Marshal(body)
 	if err != nil {
 		fmt.Println("err:", err)
@@ -57,7 +55,7 @@ func sendFile(userId int64, token string, targetContent string, storePath string
 		fmt.Println("err:", err)
 	} else {
 		type taskInfo struct {
-			TaskId    string `json:"taskId"`
+			TaskId    int64  `json:"taskId"`
 			UploadUrl string `json:"uploadUrl"`
 			BlocksUrl string `json:"blocksUrl"`
 			StateUrl  string `json:"stateUrl"`
@@ -70,9 +68,9 @@ func sendFile(userId int64, token string, targetContent string, storePath string
 		var r respBody
 		respBytes, _ := ioutil.ReadAll(resp.Body)
 		err := json.Unmarshal(respBytes, &r)
-		fmt.Println("Unmarshal err:", err)
+		fmt.Println("Unmarshal err:", err, "respBytes:", resp.Body)
 		uploadUrl := r.Data.UploadUrl
-		fmt.Println("uploadUrl: ", uploadUrl)
+		fmt.Println("r: ", r)
 		doUpload(uploadUrl, localFilePath, fileSize)
 	}
 }
@@ -121,7 +119,7 @@ func doUpload(url, filePath string, fileSize int64) {
 }
 
 func sendFileData(url string, start, end int, data []byte) bool {
-	fmt.Println("block url: ", url, " start:", start, " end:", end)
+	//fmt.Println("block url: ", url, " start:", start, " end:", end)
 	partMd5 := utils.GetTmpMd5(data)
 	b := new(bytes.Buffer)
 	w := multipart.NewWriter(b)
@@ -181,8 +179,8 @@ func sendFileData(url string, start, end int, data []byte) bool {
 
 func main() {
 	var userId int64 = 123456
-	var token string = "12345"
-	targetContent := "/home/mpr/1.exe"
-	storePath := "/tmp/fupload"
-	sendFile(userId, token, targetContent, storePath)
+	//var token string = "12345"
+	targetContent := "/home/mpr/test.mp4"
+	//storePath := "/tmp/fupload"
+	sendFile(userId, targetContent)
 }
