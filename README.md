@@ -17,7 +17,7 @@
 
 ## 三、使用 
 #### 1、部署上传组件  
-go get http:github.com/gmluckly/fuploadServer  
+git clone https://github.com/gmluckly/fuploadServer  
 go build   
 配置conf中的fupload.yaml文件，
 bServer项为与业务服务器交互的信息配置，配置token和业务服务回调url  

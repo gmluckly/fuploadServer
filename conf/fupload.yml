@@ -20,8 +20,8 @@ taskTimeout: 3600  # after (seconds), if the task do not finish ,it will be dele
 # add you business server here,
 # check tokens and send result to notifuUrl after finish
 bServer:
-  cp00000010103010301:  # name
-    name: "cp1"
+  cp00000010103010301:  # token
+    name: "cp1"     #业务服务名称
     notifyUrl: "http://127.0.0.1:8090/api/business/fupload/callback"
   cp2:
     name: "cp2"
